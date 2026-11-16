@@ -110,6 +110,54 @@
   footer .fname span{color:var(--gold)}
   footer p{color:var(--muted);font-size:13px;margin-top:9px;line-height:1.6}
   #trending{scroll-margin-top:70px}
+
+  /* ---------- storefront (one long page) ---------- */
+  .store{background:linear-gradient(180deg,#0a0a0f 0%,#1b0f26 10%,#150a1f 100%);padding-bottom:14px}
+  .sale-banner{margin:26px 16px 0;border:2px solid var(--gold);border-radius:18px;text-align:center;
+    padding:30px 18px 26px;background:radial-gradient(ellipse at 50% -20%,#7b2d8b 0%,#4a145a 52%,#2a0a38 100%)}
+  .sale-banner .sb-eyebrow{color:#ffd970;letter-spacing:.3em;font-size:11px;font-weight:800}
+  .sale-banner h2{font-family:'Anton',sans-serif;font-size:clamp(34px,9vw,58px);line-height:1.02;margin-top:10px;
+    background:linear-gradient(180deg,#fff2c4,#ffc93c 60%,#e79b00);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .sale-banner p{color:#e9d9f5;margin-top:10px;font-size:14.5px;line-height:1.55}
+  .sale-banner .btn{margin-top:18px}
+  .trust{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:16px 16px 0}
+  .trust div{background:#221031;border:1px solid #3d1c57;border-radius:12px;padding:13px 8px;text-align:center}
+  .trust .ic{font-size:21px}
+  .trust b{display:block;font-size:12.5px;margin-top:6px;line-height:1.35}
+  .trust span{color:var(--muted);font-size:11px}
+  .pill-head{display:flex;justify-content:center;margin:38px 16px 18px}
+  .pill-head h2{font-family:'Anton',sans-serif;letter-spacing:.06em;font-size:clamp(20px,5.6vw,28px);
+    background:#2a0a38;border:2px dotted var(--gold);color:#fff;border-radius:999px;padding:11px 26px;text-align:center}
+  .cat-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;padding:0 16px;max-width:1020px;margin:0 auto}
+  @media(min-width:760px){ .cat-grid{grid-template-columns:repeat(3,1fr)} }
+  .tile{display:block;background:#1d0b2c;border:1.5px solid #4a2566;border-radius:130px 130px 14px 14px;overflow:hidden}
+  .tile .art{aspect-ratio:4/4.6;overflow:hidden}
+  .tile .art img{width:100%;height:100%;object-fit:cover}
+  .tile .lbl{padding:11px 8px 13px;text-align:center;font-weight:800;font-size:14.5px;background:linear-gradient(180deg,#2a0a38,#1d0b2c)}
+  .tile .lbl small{display:block;color:var(--gold);font-weight:600;font-size:11px;margin-top:3px;letter-spacing:.08em}
+  .picks{display:grid;gap:14px;padding:0 16px;max-width:1020px;margin:0 auto}
+  @media(min-width:700px){ .picks{grid-template-columns:1fr 1fr} }
+  .pick{display:flex;gap:14px;background:#170b24;border:1px solid #38204e;border-radius:16px;padding:12px;align-items:center}
+  .pick img{width:104px;height:128px;object-fit:cover;border-radius:10px;flex:0 0 auto}
+  .pick h3{font-size:16.5px;line-height:1.3}
+  .pick p{color:var(--muted);font-size:12.5px;margin-top:4px;line-height:1.45}
+  .pick .btn{margin-top:10px;padding:10px 16px;font-size:13.5px}
+  .drops{margin:0 16px;border-radius:18px;text-align:center;padding:26px 16px;max-width:988px;
+    background:radial-gradient(ellipse at 50% -30%,#5c1a72 0%,#2a0a38 70%);border:1.5px solid #4a2566}
+  @media(min-width:1020px){ .drops{margin:0 auto} }
+  .drops h3{font-family:'Anton',sans-serif;font-size:24px;letter-spacing:.05em}
+  .drops p{color:#d9c7ee;font-size:13.5px;margin-top:8px;line-height:1.55}
+  .times{display:flex;justify-content:center;gap:14px;margin-top:16px}
+  .times div{border:2px solid var(--gold);border-radius:50%;width:92px;height:92px;display:flex;flex-direction:column;
+    align-items:center;justify-content:center;background:rgba(0,0,0,.35)}
+  .times b{font-family:'Anton',sans-serif;font-size:21px;color:#ffd970}
+  .times span{font-size:10.5px;letter-spacing:.14em;color:#e9d9f5;margin-top:2px}
+  .fest-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;padding:0 16px;max-width:1020px;margin:0 auto}
+  .fest{position:relative;border-radius:14px;overflow:hidden;aspect-ratio:3/3.8}
+  .fest img{width:100%;height:100%;object-fit:cover}
+  .fest .fl{position:absolute;inset:auto 0 0 0;padding:20px 8px 10px;text-align:center;font-weight:800;font-size:13.5px;
+    background:linear-gradient(0deg,rgba(10,4,18,.88),rgba(10,4,18,0))}
+  #store{scroll-margin-top:10px}
 </style>
 </head>
 <body>
@@ -149,69 +197,93 @@
       <a class="btn btn-red" href="https://affiliate.meesho.com/collection/MTAyODQxNDY6Ojo6OjphdXRvZG0=" target="_blank" rel="noopener">Shop the Collection</a>
     </div>
 
-    <a class="scroll-hint" id="scrollHint" href="#trending">SCROLL<span class="mouse"></span></a>
+    <a class="scroll-hint" id="scrollHint" href="#store">SCROLL<span class="mouse"></span></a>
     <div class="hero-progress" id="heroProgress"></div>
   </div>
 </div>
 
-<!-- ================= TRENDING ================= -->
-<section id="trending">
-  <div class="sec-head"><h2>Trending Now</h2><small>SEASON 1 · NOW SHOWING</small></div>
-  <div class="rail">
-    <article class="card">
-      <div class="art"><img src="assets/saree-model.jpg" alt="Model wearing the teal and magenta Kanjivaram silk saree"><span class="ep">EP 01</span></div>
-      <div class="body"><h3>Kanjivaram Silk Saree</h3><p>Teal &amp; magenta zari weave</p>
-      <a class="btn btn-red" href="https://affiliate.meesho.com/collection/MTAyODQxNDY6Ojo6OjphdXRvZG0=" target="_blank" rel="noopener">Shop on Meesho</a></div>
+<!-- ================= STOREFRONT (one long page) ================= -->
+<div class="store" id="store">
+
+  <div class="sale-banner">
+    <div class="sb-eyebrow">✦ NEHA DAILY FINDS ✦</div>
+    <h2>MAHA SAVINGS<br>PICKS</h2>
+    <p>Festive season specials, hand-picked by Neha.<br>New finds drop every day — sarees, kurtis, jewellery &amp; more.</p>
+    <a class="btn btn-red" href="https://affiliate.meesho.com/collection/MTAyODQxNDY6Ojo6OjphdXRvZG0=" target="_blank" rel="noopener">Shop the Collection</a>
+  </div>
+
+  <div class="trust">
+    <div><div class="ic">💬</div><b>Comment LINK</b><span>product arrives in your DM</span></div>
+    <div><div class="ic">🎬</div><b>New Reel Daily</b><span>12 PM &amp; 7 PM drops</span></div>
+    <div><div class="ic">🛍️</div><b>Shop on Meesho</b><span>prices shown at checkout</span></div>
+  </div>
+
+  <div class="pill-head"><h2>Categories In Demand</h2></div>
+  <div class="cat-grid">
+    <a class="tile" href="https://affiliate.meesho.com/collection/MTAyODQxNDY6Ojo6OjphdXRvZG0=" target="_blank" rel="noopener">
+      <div class="art"><img src="assets/saree-model.jpg" alt="Kanjivaram silk saree worn by the model"></div>
+      <div class="lbl">Sarees &amp; Lehengas<small>SHOP NOW</small></div>
+    </a>
+    <a class="tile" href="https://www.instagram.com/nehadailyfinds.in/" target="_blank" rel="noopener">
+      <div class="art"><img src="assets/cat-kurti.webp" alt="Model in a maroon and pink embroidered kurti suit set"></div>
+      <div class="lbl">Kurtis &amp; Suit Sets<small>NEW REELS DAILY</small></div>
+    </a>
+    <a class="tile" href="https://www.instagram.com/nehadailyfinds.in/" target="_blank" rel="noopener">
+      <div class="art"><img src="assets/cat-jewellery.webp" alt="Gold temple jewellery necklace set with jhumka earrings"></div>
+      <div class="lbl">Women Jewellery<small>NEW REELS DAILY</small></div>
+    </a>
+    <a class="tile" href="https://www.instagram.com/nehadailyfinds.in/" target="_blank" rel="noopener">
+      <div class="art"><img src="assets/cat-kitchen.webp" alt="Cookware, ceramic jars and brass diyas arranged on purple cloth"></div>
+      <div class="lbl">Home, Kitchen &amp; Decor<small>NEW REELS DAILY</small></div>
+    </a>
+    <a class="tile" href="https://affiliate.meesho.com/collection/MTAyOTc5MzM6Ojo6OjphdXRvZG0=" target="_blank" rel="noopener">
+      <div class="art"><img src="assets/blouse-model.jpg" alt="Model wearing the peach stretchable readymade blouse"></div>
+      <div class="lbl">Blouses &amp; More<small>SHOP NOW</small></div>
+    </a>
+    <a class="tile" href="https://www.instagram.com/nehadailyfinds.in/" target="_blank" rel="noopener">
+      <div class="art"><img src="assets/cat-western.webp" alt="Model in a navy blue floral western midi dress"></div>
+      <div class="lbl">Western Wear<small>NEW REELS DAILY</small></div>
+    </a>
+  </div>
+
+  <div class="pill-head"><h2>Trending Picks</h2></div>
+  <div class="picks">
+    <article class="pick">
+      <img src="assets/saree-product.webp" alt="Kanjivaram silk saree product photo">
+      <div>
+        <h3>Kanjivaram Silk Saree</h3>
+        <p>Teal &amp; magenta zari weave — the festive silk, up close.</p>
+        <a class="btn btn-red" href="https://affiliate.meesho.com/collection/MTAyODQxNDY6Ojo6OjphdXRvZG0=" target="_blank" rel="noopener">Shop on Meesho</a>
+      </div>
     </article>
-    <article class="card">
-      <div class="art"><img src="assets/blouse-model.jpg" alt="Model wearing the peach stretchable readymade blouse"><span class="ep">EP 02</span></div>
-      <div class="body"><h3>Readymade Blouse · Pack of 3</h3><p>Stretchable · peach, magenta &amp; green</p>
-      <a class="btn btn-red" href="https://affiliate.meesho.com/collection/MTAyOTc5MzM6Ojo6OjphdXRvZG0=" target="_blank" rel="noopener">Shop on Meesho</a></div>
-    </article>
-    <article class="card">
-      <div class="art"><img src="assets/saree-product.webp" alt="Kanjivaram silk saree product photo"><span class="ep">EP 03</span></div>
-      <div class="body"><h3>The Kanjivaram Edit</h3><p>The festive silk, up close</p>
-      <a class="btn btn-red" href="https://affiliate.meesho.com/collection/MTAyODQxNDY6Ojo6OjphdXRvZG0=" target="_blank" rel="noopener">Shop on Meesho</a></div>
-    </article>
-    <article class="card">
-      <div class="art"><img src="assets/blouse-product.webp" alt="Stretchable readymade blouse pack of 3 product photo"><span class="ep">EP 04</span></div>
-      <div class="body"><h3>Everyday Blouse Essentials</h3><p>Three colours, ready to wear</p>
-      <a class="btn btn-red" href="https://affiliate.meesho.com/collection/MTAyOTc5MzM6Ojo6OjphdXRvZG0=" target="_blank" rel="noopener">Shop on Meesho</a></div>
+    <article class="pick">
+      <img src="assets/blouse-product.webp" alt="Stretchable readymade blouse pack of 3 product photo">
+      <div>
+        <h3>Readymade Blouse · Pack of 3</h3>
+        <p>Stretchable · peach, magenta &amp; green · ready to wear.</p>
+        <a class="btn btn-red" href="https://affiliate.meesho.com/collection/MTAyOTc5MzM6Ojo6OjphdXRvZG0=" target="_blank" rel="noopener">Shop on Meesho</a>
+      </div>
     </article>
   </div>
-</section>
 
-<!-- ================= MEET NEHA ================= -->
-<section>
-  <div class="sec-head"><h2>Meet Neha</h2></div>
-  <div class="meet">
-    <img src="assets/poster.jpg" alt="Neha, the face of Neha Daily Finds, in a maroon saree">
-    <div>
-      <h2>One face.<br>New finds every day.</h2>
-      <p>Namaste! I am Neha. Every day I hunt down one honest find — a saree worth your money, a blouse that actually fits, a little thing that makes home nicer — and show it to you first, right here and on Instagram.</p>
-      <a class="btn btn-ghost" href="https://www.instagram.com/nehadailyfinds.in/" target="_blank" rel="noopener">Watch on Instagram</a>
+  <div class="pill-head"><h2>Daily Drops</h2></div>
+  <div class="drops">
+    <h3>⚡ NEW FIND DROPS ⚡</h3>
+    <p>A brand-new reel drops every day at these times.<br>Comment <b>LINK</b> on the reel and the product arrives in your DM.</p>
+    <div class="times">
+      <div><b>12 PM</b><span>NOON DROP</span></div>
+      <div><b>7 PM</b><span>EVENING DROP</span></div>
     </div>
   </div>
-</section>
 
-<!-- ================= COMING SOON ================= -->
-<section>
-  <div class="sec-head"><h2>Coming Soon</h2></div>
-  <div class="rail">
-    <article class="card">
-      <div class="art"><img src="assets/poster.jpg" alt="Kurti collection teaser"><span class="soon">COMING SOON</span></div>
-      <div class="body"><h3>Kurti Collection</h3><p>Everyday comfort, festive colours</p></div>
-    </article>
-    <article class="card">
-      <div class="art"><img src="assets/hero-start.jpg" alt="Festive jewellery teaser"><span class="soon">COMING SOON</span></div>
-      <div class="body"><h3>Festive Jewellery</h3><p>The finishing touch</p></div>
-    </article>
-    <article class="card">
-      <div class="art"><img src="assets/saree-product.webp" alt="Home finds teaser"><span class="soon">COMING SOON</span></div>
-      <div class="body"><h3>Home Finds</h3><p>Little things for a nicer home</p></div>
-    </article>
+  <div class="pill-head"><h2>Festive Store</h2></div>
+  <div class="fest-grid">
+    <div class="fest"><img src="assets/poster.jpg" alt="Neha in a maroon saree, wedding season look"><span class="soon">COMING SOON</span><div class="fl">Wedding Season</div></div>
+    <div class="fest"><img src="assets/cat-kitchen.webp" alt="Festive home decor with brass diyas"><span class="soon">COMING SOON</span><div class="fl">Christmas Picks</div></div>
+    <div class="fest"><img src="assets/cat-western.webp" alt="Model in a floral party dress"><span class="soon">COMING SOON</span><div class="fl">New Year Eve</div></div>
   </div>
-</section>
+
+</div>
 
 <footer>
   <div class="fname">NEHA <span>DAILY FINDS</span></div>
