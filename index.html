@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Neha Daily Finds — The Shopping Series</title>
+<meta name="description" content="Every day, one new find — sarees, kurtis, blouses and little things for your home, hand-picked and shown on Neha first.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+<style>
+  :root{ --bg:#0a0a0f; --panel:#121218; --red:#e50914; --gold:#d4af37; --text:#f5f2ea; --muted:#b9b4a8; }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{background:var(--bg);color:var(--text);font-family:'Inter',system-ui,sans-serif;overflow-x:hidden}
+  a{color:inherit;text-decoration:none}
+  img{display:block;max-width:100%}
+
+  /* ---------- top bar ---------- */
+  .topbar{position:fixed;inset:0 0 auto 0;z-index:50;display:flex;align-items:center;justify-content:space-between;
+    padding:14px 20px;background:linear-gradient(180deg,rgba(5,5,8,.92),rgba(5,5,8,0));transition:background .3s}
+  .topbar.solid{background:rgba(8,8,12,.96)}
+  .brand{display:flex;align-items:center;gap:10px;font-family:'Anton',sans-serif;letter-spacing:.14em;font-size:17px}
+  .brand img{width:38px;height:38px;border-radius:50%;object-fit:cover;border:2px solid var(--gold)}
+  .brand span{color:var(--gold)}
+  .ig-btn{display:inline-flex;align-items:center;gap:7px;border:1.5px solid rgba(255,255,255,.55);border-radius:9px;
+    padding:8px 14px;font-weight:600;font-size:14px;background:rgba(10,10,14,.45);backdrop-filter:blur(4px)}
+  .ig-btn:hover{border-color:#fff}
+
+  /* ---------- hero (shared) ---------- */
+  .hero-scroll{position:relative}
+  .hero-stage{position:relative;height:100svh;overflow:hidden;background:#000}
+  .hero-media{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+  .hero-poster{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+  .hero-shade{position:absolute;inset:0;background:linear-gradient(90deg,rgba(4,4,8,.88) 0%,rgba(4,4,8,.45) 46%,rgba(4,4,8,.05) 75%),
+    linear-gradient(0deg,rgba(10,10,15,.92) 0%,rgba(10,10,15,0) 34%),linear-gradient(180deg,rgba(10,10,15,.55) 0%,rgba(10,10,15,0) 22%)}
+  .hero-inner{position:absolute;z-index:5;left:20px;right:20px;top:50%;transform:translateY(-54%);max-width:640px}
+  .eyebrow{color:var(--gold);letter-spacing:.34em;font-size:11px;font-weight:800;margin-bottom:12px}
+  .hero-title{font-family:'Anton',sans-serif;font-size:clamp(64px,17vw,150px);line-height:.94;letter-spacing:.01em;text-transform:uppercase}
+  .hero-title .thin{display:block;color:transparent;-webkit-text-stroke:2px #fff}
+  .hero-sub{margin-top:14px;font-family:'Anton',sans-serif;letter-spacing:.18em;font-size:clamp(13px,3.4vw,19px);color:#fff}
+  .hero-sub b{color:var(--gold);font-weight:400}
+  .hero-copy{margin-top:12px;color:var(--muted);font-size:15px;line-height:1.55;max-width:430px}
+  .cta-row{display:flex;flex-wrap:wrap;gap:12px;margin-top:22px}
+  .btn{display:inline-flex;align-items:center;gap:8px;border-radius:9px;padding:14px 22px;font-weight:800;font-size:15px;border:1.5px solid transparent}
+  .btn-red{background:var(--red);color:#fff}
+  .btn-ghost{border-color:rgba(255,255,255,.6);color:#fff;background:rgba(12,12,16,.4)}
+  .scroll-hint{position:absolute;z-index:5;left:50%;bottom:20px;transform:translateX(-50%);text-align:center;color:#fff;
+    letter-spacing:.4em;font-size:10px;font-weight:600}
+  .scroll-hint .mouse{width:22px;height:36px;border:2px solid rgba(255,255,255,.75);border-radius:12px;margin:8px auto 0;position:relative}
+  .scroll-hint .mouse::after{content:"";position:absolute;left:50%;top:6px;width:4px;height:8px;margin-left:-2px;border-radius:3px;background:var(--gold);
+    animation:wheel 1.6s ease-in-out infinite}
+  @keyframes wheel{0%{transform:translateY(0);opacity:1}70%{transform:translateY(10px);opacity:0}100%{opacity:0}}
+  .hero-progress{position:absolute;z-index:6;left:0;bottom:0;height:3px;width:0%;background:linear-gradient(90deg,var(--red),var(--gold))}
+  .hero-endcard{position:absolute;z-index:5;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;
+    text-align:center;opacity:0;pointer-events:none;padding:20px}
+  .hero-endcard .eyebrow{margin-bottom:8px}
+  .hero-endcard h2{font-family:'Anton',sans-serif;font-size:clamp(44px,11vw,96px);letter-spacing:.04em;line-height:1}
+  .hero-endcard .btn{margin-top:20px}
+
+  /* desktop scrub mode */
+  .hero-canvas{position:absolute;inset:0;width:100%;height:100%}
+  .hero-video{display:none}
+  .hero-play{display:none}
+  /* mobile video mode */
+  body.video-mode .hero-scroll{height:100svh}
+  body.video-mode .hero-stage{position:relative}
+  body.video-mode .hero-canvas,body.video-mode .hero-progress,body.video-mode .hero-endcard{display:none}
+  body.video-mode .hero-video{display:block;position:absolute;inset:0;width:100%;height:100%;object-fit:cover;background:#000}
+  body.video-mode .hero-play{display:none;position:absolute;z-index:8;left:50%;top:38%;transform:translate(-50%,-50%);
+    flex-direction:column;align-items:center;gap:10px;background:none;border:none;cursor:pointer}
+  body.video-mode .hero-play.show{display:flex}
+  .hero-play .disc{width:88px;height:88px;border-radius:50%;background:var(--red);border:3px solid var(--gold);
+    display:flex;align-items:center;justify-content:center;animation:pulse 1.5s ease-in-out infinite}
+  .hero-play .disc svg{width:34px;height:34px;fill:#fff;margin-left:5px}
+  .hero-play .lbl{background:rgba(0,0,0,.65);color:#fff;font-weight:800;font-size:14px;padding:7px 16px;border-radius:999px;letter-spacing:.06em}
+  @keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.09)}}
+  @media (prefers-reduced-motion:reduce){ .hero-play .disc{animation:none} .scroll-hint .mouse::after{animation:none} }
+
+  /* ---------- sections ---------- */
+  section{padding:44px 0 6px}
+  .sec-head{display:flex;align-items:center;gap:10px;padding:0 20px;margin-bottom:16px}
+  .sec-head::before{content:"";width:5px;height:24px;background:var(--red);border-radius:3px}
+  .sec-head h2{font-family:'Anton',sans-serif;font-size:26px;letter-spacing:.05em}
+  .sec-head small{color:var(--muted);letter-spacing:.22em;font-size:10px;font-weight:800;margin-left:6px}
+  .rail{display:flex;gap:14px;overflow-x:auto;padding:4px 20px 18px;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+  .rail::-webkit-scrollbar{display:none}
+  .card{flex:0 0 240px;scroll-snap-align:start;background:var(--panel);border-radius:14px;overflow:hidden;
+    transition:transform .35s ease, box-shadow .35s ease}
+  .card:hover{transform:translateY(-6px) scale(1.02);box-shadow:0 18px 40px rgba(0,0,0,.55)}
+  .card .art{position:relative;aspect-ratio:4/5;overflow:hidden}
+  .card .art img{width:100%;height:100%;object-fit:cover}
+  .ep{position:absolute;top:10px;left:10px;background:rgba(0,0,0,.72);color:var(--gold);font-size:11px;font-weight:800;
+    letter-spacing:.18em;padding:5px 9px;border-radius:6px}
+  .soon{position:absolute;top:10px;right:10px;background:var(--gold);color:#14100a;font-size:11px;font-weight:800;
+    letter-spacing:.08em;padding:5px 9px;border-radius:6px}
+  .card .body{padding:14px 14px 16px}
+  .card h3{font-size:16px;line-height:1.3}
+  .card p{color:var(--muted);font-size:12.5px;margin-top:5px;line-height:1.45}
+  .card .btn{margin-top:12px;padding:11px 16px;font-size:14px;width:100%;justify-content:center}
+
+  .meet{display:grid;grid-template-columns:300px 1fr;gap:26px;align-items:center;padding:6px 20px 10px;max-width:1020px}
+  .meet img{border-radius:16px;aspect-ratio:9/16;object-fit:cover;width:100%}
+  .meet h2{font-family:'Anton',sans-serif;font-size:clamp(30px,6vw,46px);line-height:1.05}
+  .meet p{color:var(--muted);margin-top:12px;line-height:1.65;font-size:15px;max-width:520px}
+  .meet .btn{margin-top:18px}
+  @media(max-width:700px){ .meet{grid-template-columns:1fr} .meet img{max-width:300px} }
+
+  footer{margin-top:52px;border-top:1px solid #1e1e28;padding:30px 20px 40px;text-align:center}
+  footer .fname{font-family:'Anton',sans-serif;letter-spacing:.14em;font-size:20px}
+  footer .fname span{color:var(--gold)}
+  footer p{color:var(--muted);font-size:13px;margin-top:9px;line-height:1.6}
+  #trending{scroll-margin-top:70px}
+</style>
+</head>
+<body>
+
+<header class="topbar" id="topbar">
+  <a class="brand" href="#"><img src="assets/logo.jpg" alt="Neha Daily Finds logo">NEHA <span>DAILY FINDS</span></a>
+  <a class="ig-btn" href="https://www.instagram.com/nehadailyfinds.in/" target="_blank" rel="noopener">Instagram</a>
+</header>
+
+<!-- ================= HERO ================= -->
+<div class="hero-scroll" id="heroScroll">
+  <div class="hero-stage" id="heroStage">
+    <img class="hero-poster" id="heroPoster" src="assets/frames/f001.jpg" alt="Neha on a dark studio stage in a deep maroon saree with a gold zari border">
+    <canvas class="hero-canvas" id="heroCanvas"></canvas>
+    <video class="hero-video" id="heroVideo" muted loop playsinline autoplay preload="auto" poster="assets/frames/f001.jpg" data-src="assets/hero-mobile.mp4"></video>
+    <div class="hero-shade"></div>
+
+    <div class="hero-inner" id="heroInner">
+      <div class="eyebrow">— A DAILY SHOPPING SERIES</div>
+      <h1 class="hero-title">NEHA<span class="thin">DAILY</span>FINDS</h1>
+      <div class="hero-sub">DAILY FINDS <b>–</b> THE SHOPPING SERIES</div>
+      <p class="hero-copy">Every day, one new find — sarees, kurtis, blouses and little things for your home, hand-picked and shown on Neha first.</p>
+      <div class="cta-row">
+        <a class="btn btn-red" href="https://affiliate.meesho.com/collection/MTAyODQxNDY6Ojo6OjphdXRvZG0=" target="_blank" rel="noopener">Shop the Collection</a>
+        <a class="btn btn-ghost" href="https://www.instagram.com/nehadailyfinds.in/" target="_blank" rel="noopener">Follow @nehadailyfinds.in</a>
+      </div>
+    </div>
+
+    <button class="hero-play" id="heroPlay" aria-label="Play the hero video">
+      <span class="disc"><svg viewBox="0 0 24 24"><path d="M6 3.8v16.4c0 .9 1 1.5 1.8 1L20 13a1.2 1.2 0 0 0 0-2L7.8 2.9C7 2.4 6 2.9 6 3.8z"/></svg></span>
+      <span class="lbl">Tap to Play</span>
+    </button>
+
+    <div class="hero-endcard" id="heroEnd">
+      <div class="eyebrow">THE SHOPPING SERIES</div>
+      <h2>DAILY FINDS</h2>
+      <a class="btn btn-red" href="https://affiliate.meesho.com/collection/MTAyODQxNDY6Ojo6OjphdXRvZG0=" target="_blank" rel="noopener">Shop the Collection</a>
+    </div>
+
+    <a class="scroll-hint" id="scrollHint" href="#trending">SCROLL<span class="mouse"></span></a>
+    <div class="hero-progress" id="heroProgress"></div>
+  </div>
+</div>
+
+<!-- ================= TRENDING ================= -->
+<section id="trending">
+  <div class="sec-head"><h2>Trending Now</h2><small>SEASON 1 · NOW SHOWING</small></div>
+  <div class="rail">
+    <article class="card">
+      <div class="art"><img src="assets/saree-model.jpg" alt="Model wearing the teal and magenta Kanjivaram silk saree"><span class="ep">EP 01</span></div>
+      <div class="body"><h3>Kanjivaram Silk Saree</h3><p>Teal &amp; magenta zari weave</p>
+      <a class="btn btn-red" href="https://affiliate.meesho.com/collection/MTAyODQxNDY6Ojo6OjphdXRvZG0=" target="_blank" rel="noopener">Shop on Meesho</a></div>
+    </article>
+    <article class="card">
+      <div class="art"><img src="assets/blouse-model.jpg" alt="Model wearing the peach stretchable readymade blouse"><span class="ep">EP 02</span></div>
+      <div class="body"><h3>Readymade Blouse · Pack of 3</h3><p>Stretchable · peach, magenta &amp; green</p>
+      <a class="btn btn-red" href="https://affiliate.meesho.com/collection/MTAyOTc5MzM6Ojo6OjphdXRvZG0=" target="_blank" rel="noopener">Shop on Meesho</a></div>
+    </article>
+    <article class="card">
+      <div class="art"><img src="assets/saree-product.webp" alt="Kanjivaram silk saree product photo"><span class="ep">EP 03</span></div>
+      <div class="body"><h3>The Kanjivaram Edit</h3><p>The festive silk, up close</p>
+      <a class="btn btn-red" href="https://affiliate.meesho.com/collection/MTAyODQxNDY6Ojo6OjphdXRvZG0=" target="_blank" rel="noopener">Shop on Meesho</a></div>
+    </article>
+    <article class="card">
+      <div class="art"><img src="assets/blouse-product.webp" alt="Stretchable readymade blouse pack of 3 product photo"><span class="ep">EP 04</span></div>
+      <div class="body"><h3>Everyday Blouse Essentials</h3><p>Three colours, ready to wear</p>
+      <a class="btn btn-red" href="https://affiliate.meesho.com/collection/MTAyOTc5MzM6Ojo6OjphdXRvZG0=" target="_blank" rel="noopener">Shop on Meesho</a></div>
+    </article>
+  </div>
+</section>
+
+<!-- ================= MEET NEHA ================= -->
+<section>
+  <div class="sec-head"><h2>Meet Neha</h2></div>
+  <div class="meet">
+    <img src="assets/poster.jpg" alt="Neha, the face of Neha Daily Finds, in a maroon saree">
+    <div>
+      <h2>One face.<br>New finds every day.</h2>
+      <p>Namaste! I am Neha. Every day I hunt down one honest find — a saree worth your money, a blouse that actually fits, a little thing that makes home nicer — and show it to you first, right here and on Instagram.</p>
+      <a class="btn btn-ghost" href="https://www.instagram.com/nehadailyfinds.in/" target="_blank" rel="noopener">Watch on Instagram</a>
+    </div>
+  </div>
+</section>
+
+<!-- ================= COMING SOON ================= -->
+<section>
+  <div class="sec-head"><h2>Coming Soon</h2></div>
+  <div class="rail">
+    <article class="card">
+      <div class="art"><img src="assets/poster.jpg" alt="Kurti collection teaser"><span class="soon">COMING SOON</span></div>
+      <div class="body"><h3>Kurti Collection</h3><p>Everyday comfort, festive colours</p></div>
+    </article>
+    <article class="card">
+      <div class="art"><img src="assets/hero-start.jpg" alt="Festive jewellery teaser"><span class="soon">COMING SOON</span></div>
+      <div class="body"><h3>Festive Jewellery</h3><p>The finishing touch</p></div>
+    </article>
+    <article class="card">
+      <div class="art"><img src="assets/saree-product.webp" alt="Home finds teaser"><span class="soon">COMING SOON</span></div>
+      <div class="body"><h3>Home Finds</h3><p>Little things for a nicer home</p></div>
+    </article>
+  </div>
+</section>
+
+<footer>
+  <div class="fname">NEHA <span>DAILY FINDS</span></div>
+  <p>@nehadailyfinds.in<br>Comment LINK on any reel and the product arrives in your DM.<br>Prices and offers are shown on Meesho at checkout.</p>
+</footer>
+
+<script>
+(function(){
+  "use strict";
+  var topbar = document.getElementById('topbar');
+  addEventListener('scroll', function(){ topbar.classList.toggle('solid', scrollY > 40); }, {passive:true});
+
+  var videoMode = matchMedia('(pointer: coarse)').matches || innerWidth <= 820;
+  var reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* ================= MOBILE: real video ================= */
+  if (videoMode) {
+    document.body.classList.add('video-mode');
+    var vid = document.getElementById('heroVideo');
+    var playBtn = document.getElementById('heroPlay');
+    var poster = document.getElementById('heroPoster');
+    if (reduced) { vid.removeAttribute('autoplay'); }
+    vid.muted = true;
+    vid.src = vid.getAttribute('data-src');
+    var playing = false;
+    function showPlay(){ if(!playing) playBtn.classList.add('show'); }
+    function hidePlay(){ playBtn.classList.remove('show'); }
+    function tryPlay(){
+      var p = vid.play();
+      if (p && p.catch) p.catch(showPlay);
+    }
+    vid.addEventListener('playing', function(){ playing = true; hidePlay(); poster.style.display='none'; });
+    vid.addEventListener('pause', function(){ playing = false; showPlay(); });
+    vid.addEventListener('error', function(){ vid.style.display='none'; hidePlay(); }, true);
+    playBtn.addEventListener('click', function(e){ e.stopPropagation(); tryPlay(); });
+    document.getElementById('heroStage').addEventListener('click', function(){ if(!playing) tryPlay(); });
+    addEventListener('pointerdown', function once(){ tryPlay(); removeEventListener('pointerdown', once); });
+    tryPlay();
+    setTimeout(function(){ if(!playing) showPlay(); }, 1500);
+    return;
+  }
+
+  /* ================= DESKTOP: scroll-scrub frames ================= */
+  var FRAMES = 240, track = document.getElementById('heroScroll');
+  var canvas = document.getElementById('heroCanvas'), ctx = canvas.getContext('2d');
+  var inner = document.getElementById('heroInner'), end = document.getElementById('heroEnd');
+  var hint = document.getElementById('scrollHint'), bar = document.getElementById('heroProgress');
+  var posterImg = document.getElementById('heroPoster');
+  track.style.height = '210vh';
+  var stage = document.getElementById('heroStage');
+  stage.style.position = 'sticky'; stage.style.top = '0';
+
+  var frames = new Array(FRAMES), loadedCount = 0;
+  function path(i){ return 'assets/frames/f' + String(i+1).padStart(3,'0') + '.jpg'; }
+  function loadFrame(i){
+    if (frames[i]) return;
+    var im = new Image();
+    im.onload = function(){ loadedCount++; };
+    im.src = path(i);
+    frames[i] = im;
+  }
+  // strided preload: every 6th frame + last, then fill in
+  var order = [];
+  for (var s = 0; s < FRAMES; s += 6) order.push(s);
+  if (order[order.length-1] !== FRAMES-1) order.push(FRAMES-1);
+  for (var a = 0; a < FRAMES; a++) if (a % 6 !== 0) order.push(a);
+  var qi = 0, inflight = 0;
+  function pump(){
+    while (inflight < 8 && qi < order.length) {
+      (function(idx){
+        inflight++;
+        var im = new Image();
+        im.onload = im.onerror = function(){ inflight--; loadedCount++; pump(); };
+        im.src = path(idx);
+        frames[idx] = im;
+      })(order[qi++]);
+    }
+  }
+  frames[0] = posterImg; pump();
+
+  function sizeCanvas(){
+    var dpr = Math.min(devicePixelRatio || 1, 1.5);
+    canvas.width = Math.min(innerWidth * dpr, 960);
+    canvas.height = canvas.width * 542 / 960;
+  }
+  sizeCanvas(); addEventListener('resize', sizeCanvas);
+
+  function nearestLoaded(i){
+    if (frames[i] && frames[i].complete && frames[i].naturalWidth) return frames[i];
+    for (var d = 1; d < FRAMES; d++) {
+      if (frames[i-d] && frames[i-d].complete && frames[i-d].naturalWidth) return frames[i-d];
+      if (frames[i+d] && frames[i+d].complete && frames[i+d].naturalWidth) return frames[i+d];
+    }
+    return posterImg;
+  }
+  function draw(img){
+    var cw = canvas.width, ch = canvas.height;
+    var scale = Math.max(cw / img.naturalWidth, ch / img.naturalHeight);
+    var w = img.naturalWidth * scale, h = img.naturalHeight * scale;
+    ctx.drawImage(img, (cw - w) / 2, (ch - h) / 2, w, h);
+  }
+  // canvas must cover the stage: stretch via CSS pixels
+  canvas.style.width = '100%'; canvas.style.height = '100%';
+  function fitCanvas(){
+    var r = stage.getBoundingClientRect();
+    var dpr = Math.min(devicePixelRatio || 1, 1.5);
+    canvas.width = Math.min(Math.round(r.width * dpr), 1440);
+    canvas.height = Math.round(canvas.width * r.height / r.width);
+  }
+  fitCanvas(); addEventListener('resize', fitCanvas);
+
+  function progress(){
+    var rect = track.getBoundingClientRect();
+    var total = track.offsetHeight - innerHeight;
+    var done = Math.min(Math.max(-rect.top, 0), total);
+    return total > 0 ? done / total : 0;
+  }
+  function clamp01(x){ return Math.min(1, Math.max(0, x)); }
+  function seg(p, a, b){ return clamp01((p - a) / (b - a)); }
+
+  var displayPos = 0, targetPos = 0, autoplay = !reduced, autoStart = null, userTookOver = false;
+  ['wheel','touchstart','keydown'].forEach(function(ev){
+    addEventListener(ev, function(){ userTookOver = true; autoplay = false; }, {passive:true});
+  });
+  addEventListener('scroll', function(){
+    if (autoplay) { // user scrolled without a takeover event (e.g. scrollbar drag)
+      var pt = progress();
+      if (Math.abs(pt - displayPos) > 0.02) { autoplay = false; userTookOver = true; }
+    }
+  }, {passive:true});
+
+  function render(){
+    if (autoplay) {
+      if (!autoStart) autoStart = performance.now();
+      var t = Math.min((performance.now() - autoStart) / 6500, 1);
+      var e = t < .5 ? 2*t*t : 1 - Math.pow(-2*t + 2, 2) / 2; // easeInOut
+      targetPos = e;
+      // sync the page scroll to the playhead so scrub continues seamlessly
+      var total = track.offsetHeight - innerHeight;
+      scrollTo(0, track.offsetTop + e * total);
+      if (t >= 1) autoplay = false;
+    } else {
+      targetPos = progress();
+    }
+    displayPos += (targetPos - displayPos) * 0.22;
+    if (Math.abs(targetPos - displayPos) < 0.0005) displayPos = targetPos;
+    var p = displayPos;
+    draw(nearestLoaded(Math.round(p * (FRAMES - 1))));
+    var titleOut = seg(p, 0.18, 0.48);
+    inner.style.opacity = String(1 - titleOut);
+    inner.style.transform = 'translateY(-54%) scale(' + (1 - titleOut * 0.06) + ')';
+    inner.style.display = titleOut > 0.98 ? 'none' : '';
+    var endIn = seg(p, 0.88, 0.97);
+    end.style.opacity = String(endIn);
+    end.style.pointerEvents = endIn > 0.5 ? 'auto' : 'none';
+    var hintVis = 1 - seg(p, 0.02, 0.12);
+    hint.style.opacity = String(hintVis);
+    hint.style.pointerEvents = hintVis < 0.05 ? 'none' : 'auto';
+    bar.style.width = (p * 100).toFixed(1) + '%';
+    requestAnimationFrame(render);
+  }
+  requestAnimationFrame(render);
+})();
+</script>
+</body>
+</html>
