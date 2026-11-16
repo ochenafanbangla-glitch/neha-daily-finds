@@ -124,7 +124,7 @@
   <div class="hero-stage" id="heroStage">
     <img class="hero-poster" id="heroPoster" src="assets/frames/f001.jpg" alt="Neha on a dark studio stage in a deep maroon saree with a gold zari border">
     <canvas class="hero-canvas" id="heroCanvas"></canvas>
-    <video class="hero-video" id="heroVideo" muted loop playsinline autoplay preload="auto" poster="assets/frames/f001.jpg" data-src="assets/hero-mobile.mp4"></video>
+    <video class="hero-video" id="heroVideo" src="assets/hero-mobile.mp4" muted loop playsinline autoplay preload="auto" poster="assets/frames/f001.jpg"></video>
     <div class="hero-shade"></div>
 
     <div class="hero-inner" id="heroInner">
@@ -138,7 +138,7 @@
       </div>
     </div>
 
-    <button class="hero-play" id="heroPlay" aria-label="Play the hero video">
+    <button class="hero-play show" id="heroPlay" aria-label="Play the hero video">
       <span class="disc"><svg viewBox="0 0 24 24"><path d="M6 3.8v16.4c0 .9 1 1.5 1.8 1L20 13a1.2 1.2 0 0 0 0-2L7.8 2.9C7 2.4 6 2.9 6 3.8z"/></svg></span>
       <span class="lbl">Tap to Play</span>
     </button>
@@ -235,7 +235,6 @@
     var poster = document.getElementById('heroPoster');
     if (reduced) { vid.removeAttribute('autoplay'); }
     vid.muted = true;
-    vid.src = vid.getAttribute('data-src');
     var playing = false;
     function showPlay(){ if(!playing) playBtn.classList.add('show'); }
     function hidePlay(){ playBtn.classList.remove('show'); }
@@ -245,10 +244,12 @@
     }
     vid.addEventListener('playing', function(){ playing = true; hidePlay(); poster.style.display='none'; });
     vid.addEventListener('pause', function(){ playing = false; showPlay(); });
+    vid.addEventListener('canplay', function(){ if(!playing) tryPlay(); });
     vid.addEventListener('error', function(){ vid.style.display='none'; hidePlay(); }, true);
     playBtn.addEventListener('click', function(e){ e.stopPropagation(); tryPlay(); });
     document.getElementById('heroStage').addEventListener('click', function(){ if(!playing) tryPlay(); });
     addEventListener('pointerdown', function once(){ tryPlay(); removeEventListener('pointerdown', once); });
+    document.addEventListener('visibilitychange', function(){ if(!document.hidden && !playing) tryPlay(); });
     tryPlay();
     setTimeout(function(){ if(!playing) showPlay(); }, 1500);
     return;
