@@ -572,9 +572,28 @@
   flow.addEventListener('scroll', function(){ if(!tick){ tick = true; requestAnimationFrame(function(){ paint(); tick = false; }); } }, {passive:true});
   addEventListener('resize', paint);
   paint();
-  function step(dir){ var w = slides[0].offsetWidth + 14; flow.scrollBy({left: dir*w, behavior:'smooth'}); }
+  function centrePos(s){ return s.offsetLeft - (flow.clientWidth - s.offsetWidth)/2; }
+  function currentIdx(){ var mid = flow.scrollLeft + flow.clientWidth/2, best = 0, bd = 1e9;
+    slides.forEach(function(s, i){ var d = Math.abs(s.offsetLeft + s.offsetWidth/2 - mid); if (d < bd){ bd = d; best = i; } });
+    return best; }
+  function goTo(i){ flow.scrollTo({left: centrePos(slides[i]), behavior:'smooth'}); }
+  function step(dir){ poke(); goTo((currentIdx() + dir + slides.length) % slides.length); }
   document.getElementById('flowPrev').addEventListener('click', function(){ step(-1); });
   document.getElementById('flowNext').addEventListener('click', function(){ step(1); });
+
+  /* ----- autoplay: next slide every 3s, pauses while the visitor is using it ----- */
+  var lastPoke = 0, flowVisible = true;
+  function poke(){ lastPoke = Date.now(); }
+  ['pointerdown','touchstart','wheel'].forEach(function(ev){ flow.addEventListener(ev, poke, {passive:true}); });
+  if ('IntersectionObserver' in window) {
+    new IntersectionObserver(function(es){ es.forEach(function(en){ flowVisible = en.intersectionRatio > 0.25; }); }, {threshold:[0, 0.25]}).observe(flow);
+  }
+  setInterval(function(){
+    if (!flowVisible) return;
+    if (Date.now() - lastPoke < 4000) return;
+    if (modal.classList.contains('open')) return;
+    goTo((currentIdx() + 1) % slides.length);
+  }, 3000);
 
   /* ----- quick-view card ----- */
   var QV = {
