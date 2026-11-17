@@ -181,6 +181,14 @@
   .fest:nth-child(3)::after{animation-delay:-4s}
   @keyframes sheenMove{from{left:-45%}to{left:112%}}
   @keyframes shineText{0%{background-position:115% 0}100%{background-position:-115% 0}}
+  .gicon{position:relative}
+  .gicon::after{content:"";position:absolute;top:0;left:50%;transform:translateX(-50%);width:62px;height:62px;border-radius:50%;pointer-events:none;
+    background:linear-gradient(105deg,transparent 32%,rgba(255,255,255,.38) 50%,transparent 68%);
+    background-size:250% 100%;animation:iconSheen 3.6s linear infinite alternate}
+  .gcol .gicon:nth-child(2)::after{animation-delay:-1.2s}
+  .gcol .gicon:nth-child(3)::after{animation-delay:-2.4s}
+  @keyframes iconSheen{from{background-position:115% 0}to{background-position:-115% 0}}
+  @media (max-width:380px){ .gicon::after{width:54px;height:54px} }
 
   /* ---------- ADVANCED: menu / ticker / coverflow / quick-view / reels ---------- */
   .menu{display:flex;gap:16px}
