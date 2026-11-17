@@ -161,27 +161,27 @@
 
   /* ---------- moving light shine (sweeps side to side) ---------- */
   .sale-banner{position:relative;overflow:hidden}
-  .sale-banner::after{content:"";position:absolute;top:-10%;bottom:-10%;width:42%;left:-60%;pointer-events:none;
-    background:linear-gradient(105deg,transparent,rgba(255,255,255,.30),transparent);transform:skewX(-18deg);
-    animation:sheen 4.4s ease-in-out infinite}
+  .sale-banner::after{content:"";position:absolute;top:-10%;bottom:-10%;width:34%;left:-45%;pointer-events:none;z-index:3;
+    background:linear-gradient(105deg,transparent,rgba(255,255,255,.38),transparent);transform:skewX(-18deg);
+    animation:sheenMove 5s linear infinite alternate}
   .sale-banner h2{background:linear-gradient(100deg,#e79b00 0%,#ffc93c 32%,#fff7dc 50%,#ffc93c 68%,#e79b00 100%);
     background-size:220% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;
     animation:shineText 3.8s linear infinite}
   .tile .art{position:relative}
-  .tile .art::after,.fest::after{content:"";position:absolute;top:-10%;bottom:-10%;width:38%;left:-55%;pointer-events:none;
-    background:linear-gradient(105deg,transparent,rgba(255,255,255,.22),transparent);transform:skewX(-18deg);
-    animation:sheen 5.2s ease-in-out infinite}
-  .tile:nth-child(2) .art::after{animation-delay:.7s}
-  .tile:nth-child(3) .art::after{animation-delay:1.4s}
-  .tile:nth-child(4) .art::after{animation-delay:2.1s}
-  .tile:nth-child(5) .art::after{animation-delay:2.8s}
-  .tile:nth-child(6) .art::after{animation-delay:3.5s}
-  .fest:nth-child(2)::after{animation-delay:1.2s}
-  .fest:nth-child(3)::after{animation-delay:2.4s}
-  @keyframes sheen{0%{left:-55%}38%{left:135%}100%{left:135%}}
+  .tile .art::after,.fest::after{content:"";position:absolute;top:-10%;bottom:-10%;width:30%;left:-45%;pointer-events:none;z-index:3;
+    background:linear-gradient(105deg,transparent,rgba(255,255,255,.30),transparent);transform:skewX(-18deg);
+    animation:sheenMove 6s linear infinite alternate}
+  .tile:nth-child(2) .art::after{animation-delay:-1s}
+  .tile:nth-child(3) .art::after{animation-delay:-2s}
+  .tile:nth-child(4) .art::after{animation-delay:-3s}
+  .tile:nth-child(5) .art::after{animation-delay:-4s}
+  .tile:nth-child(6) .art::after{animation-delay:-5s}
+  .fest:nth-child(2)::after{animation-delay:-2s}
+  .fest:nth-child(3)::after{animation-delay:-4s}
+  @keyframes sheenMove{from{left:-45%}to{left:112%}}
   @keyframes shineText{0%{background-position:115% 0}100%{background-position:-115% 0}}
   @media (prefers-reduced-motion:reduce){
-    .sale-banner::after,.tile .art::after,.fest::after{animation:none}
+    .sale-banner::after,.tile .art::after,.fest::after{animation:none;left:32%;opacity:.55}
     .sale-banner h2{animation:none}
   }
 </style>
