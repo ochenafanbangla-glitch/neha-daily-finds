@@ -555,9 +555,20 @@
 <script>
 (function(){
   "use strict";
-  /* ----- coverflow: centre slide sharp & big, sides blurred ----- */
+  /* ----- coverflow: centre sharp, sides blurred, seamless circular loop ----- */
   var flow = document.getElementById('flow');
+  var realSlides = Array.prototype.slice.call(flow.querySelectorAll('.fslide'));
+  var N = realSlides.length, CL = 2;
+  var fragPre = document.createDocumentFragment(), fragPost = document.createDocumentFragment(), ci;
+  for (ci = N - CL; ci < N; ci++) fragPre.appendChild(realSlides[ci].cloneNode(true));
+  for (ci = 0; ci < CL; ci++) fragPost.appendChild(realSlides[ci].cloneNode(true));
+  flow.insertBefore(fragPre, flow.firstChild);
+  flow.appendChild(fragPost);
   var slides = Array.prototype.slice.call(flow.querySelectorAll('.fslide'));
+  function centrePos(s){ return s.offsetLeft - (flow.clientWidth - s.offsetWidth)/2; }
+  function currentIdx(){ var mid = flow.scrollLeft + flow.clientWidth/2, best = 0, bd = 1e9;
+    slides.forEach(function(s, i){ var d = Math.abs(s.offsetLeft + s.offsetWidth/2 - mid); if (d < bd){ bd = d; best = i; } });
+    return best; }
   function paint(){
     var mid = flow.scrollLeft + flow.clientWidth/2;
     slides.forEach(function(s){
@@ -568,31 +579,45 @@
       img.style.filter = 'blur(' + (r*3).toFixed(1) + 'px) brightness(' + (1 - r*0.38).toFixed(2) + ')';
     });
   }
-  var tick = false;
-  flow.addEventListener('scroll', function(){ if(!tick){ tick = true; requestAnimationFrame(function(){ paint(); tick = false; }); } }, {passive:true});
-  addEventListener('resize', paint);
-  paint();
-  function centrePos(s){ return s.offsetLeft - (flow.clientWidth - s.offsetWidth)/2; }
-  function currentIdx(){ var mid = flow.scrollLeft + flow.clientWidth/2, best = 0, bd = 1e9;
-    slides.forEach(function(s, i){ var d = Math.abs(s.offsetLeft + s.offsetWidth/2 - mid); if (d < bd){ bd = d; best = i; } });
-    return best; }
-  function goTo(i){ flow.scrollTo({left: centrePos(slides[i]), behavior:'smooth'}); }
-  function step(dir){ poke(); goTo((currentIdx() + dir + slides.length) % slides.length); }
+  function settle(){
+    var i = currentIdx();
+    if (i < CL || i >= CL + N) {
+      var target = slides[CL + (((i - CL) % N) + N) % N];
+      flow.style.scrollSnapType = 'none';
+      flow.scrollLeft = centrePos(target);
+      void flow.offsetHeight;
+      flow.style.scrollSnapType = '';
+      paint();
+    }
+  }
+  var tick = false, settleTimer = null;
+  flow.addEventListener('scroll', function(){
+    if(!tick){ tick = true; requestAnimationFrame(function(){ paint(); tick = false; }); }
+    clearTimeout(settleTimer); settleTimer = setTimeout(settle, 150);
+  }, {passive:true});
+  addEventListener('resize', function(){ paint(); });
+  function goTo(i){ i = Math.max(0, Math.min(slides.length - 1, i)); flow.scrollTo({left: centrePos(slides[i]), behavior:'smooth'}); setTimeout(settle, 500); }
+  function poke(){ lastPoke = Date.now(); }
+  function step(dir){ poke(); goTo(currentIdx() + dir); }
   document.getElementById('flowPrev').addEventListener('click', function(){ step(-1); });
   document.getElementById('flowNext').addEventListener('click', function(){ step(1); });
 
-  /* ----- autoplay: next slide every 3s, pauses while the visitor is using it ----- */
+  /* ----- autoplay: next slide every 3s, never rewinds; pauses while in use ----- */
   var lastPoke = 0, flowVisible = true;
-  function poke(){ lastPoke = Date.now(); }
   ['pointerdown','touchstart','wheel'].forEach(function(ev){ flow.addEventListener(ev, poke, {passive:true}); });
   if ('IntersectionObserver' in window) {
     new IntersectionObserver(function(es){ es.forEach(function(en){ flowVisible = en.intersectionRatio > 0.25; }); }, {threshold:[0, 0.25]}).observe(flow);
   }
+  flow.style.scrollSnapType = 'none';
+  flow.scrollLeft = centrePos(slides[CL]);
+  void flow.offsetHeight;
+  flow.style.scrollSnapType = '';
+  paint();
   setInterval(function(){
     if (!flowVisible) return;
     if (Date.now() - lastPoke < 4000) return;
     if (modal.classList.contains('open')) return;
-    goTo((currentIdx() + 1) % slides.length);
+    goTo(currentIdx() + 1);
   }, 3000);
 
   /* ----- quick-view card ----- */
