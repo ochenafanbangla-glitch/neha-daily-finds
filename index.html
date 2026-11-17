@@ -295,11 +295,6 @@
       </div>
     </div>
 
-    <button class="hero-play show" id="heroPlay" aria-label="Play the hero video">
-      <span class="disc"><svg viewBox="0 0 24 24"><path d="M6 3.8v16.4c0 .9 1 1.5 1.8 1L20 13a1.2 1.2 0 0 0 0-2L7.8 2.9C7 2.4 6 2.9 6 3.8z"/></svg></span>
-      <span class="lbl">Tap to Play</span>
-    </button>
-
     <div class="hero-endcard" id="heroEnd">
       <div class="eyebrow">THE SHOPPING SERIES</div>
       <h2>DAILY FINDS</h2>
@@ -439,13 +434,12 @@
   if (videoMode) {
     document.body.classList.add('video-mode');
     var vid = document.getElementById('heroVideo');
-    var playBtn = document.getElementById('heroPlay');
     var poster = document.getElementById('heroPoster');
     if (reduced) { vid.removeAttribute('autoplay'); }
     vid.muted = true;
     var playing = false;
-    function showPlay(){ if(!playing) playBtn.classList.add('show'); }
-    function hidePlay(){ playBtn.classList.remove('show'); }
+    function showPlay(){}
+    function hidePlay(){}
     function tryPlay(){
       var p = vid.play();
       if (p && p.catch) p.catch(showPlay);
@@ -454,7 +448,6 @@
     vid.addEventListener('pause', function(){ playing = false; showPlay(); });
     vid.addEventListener('canplay', function(){ if(!playing) tryPlay(); });
     vid.addEventListener('error', function(){ vid.style.display='none'; hidePlay(); }, true);
-    playBtn.addEventListener('click', function(e){ e.stopPropagation(); tryPlay(); });
     document.getElementById('heroStage').addEventListener('click', function(){ if(!playing) tryPlay(); });
     addEventListener('pointerdown', function once(){ tryPlay(); removeEventListener('pointerdown', once); });
     document.addEventListener('visibilitychange', function(){ if(!document.hidden && !playing) tryPlay(); });
