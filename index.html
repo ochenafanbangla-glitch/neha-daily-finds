@@ -602,23 +602,29 @@
   document.getElementById('flowPrev').addEventListener('click', function(){ step(-1); });
   document.getElementById('flowNext').addEventListener('click', function(){ step(1); });
 
-  /* ----- autoplay: next slide every 3s, never rewinds; pauses while in use ----- */
-  var lastPoke = 0, flowVisible = true;
-  ['pointerdown','touchstart','wheel'].forEach(function(ev){ flow.addEventListener(ev, poke, {passive:true}); });
-  if ('IntersectionObserver' in window) {
-    new IntersectionObserver(function(es){ es.forEach(function(en){ flowVisible = en.intersectionRatio > 0.25; }); }, {threshold:[0, 0.25]}).observe(flow);
+  /* ----- autoplay: starts the moment the slider is on screen, then every 3s ----- */
+  var lastPoke = 0, flowVisible = false, autoTimer = null;
+  function scheduleAuto(ms){ clearTimeout(autoTimer); autoTimer = setTimeout(autoStep, ms); }
+  function autoStep(){
+    if (!flowVisible) return;
+    if (modal.classList.contains('open') || Date.now() - lastPoke < 2500) { scheduleAuto(800); return; }
+    goTo(currentIdx() + 1);
+    scheduleAuto(3000);
   }
+  ['pointerdown','touchstart','wheel'].forEach(function(ev){ flow.addEventListener(ev, function(){ poke(); scheduleAuto(4500); }, {passive:true}); });
+  if ('IntersectionObserver' in window) {
+    new IntersectionObserver(function(es){ es.forEach(function(en){
+      var vis = en.intersectionRatio > 0.25;
+      if (vis && !flowVisible) scheduleAuto(600);
+      flowVisible = vis;
+    }); }, {threshold:[0, 0.25]}).observe(flow);
+  } else { flowVisible = true; }
   flow.style.scrollSnapType = 'none';
   flow.scrollLeft = centrePos(slides[CL]);
   void flow.offsetHeight;
   flow.style.scrollSnapType = '';
   paint();
-  setInterval(function(){
-    if (!flowVisible) return;
-    if (Date.now() - lastPoke < 4000) return;
-    if (modal.classList.contains('open')) return;
-    goTo(currentIdx() + 1);
-  }, 3000);
+  scheduleAuto(1200);
 
   /* ----- quick-view card ----- */
   var QV = {
