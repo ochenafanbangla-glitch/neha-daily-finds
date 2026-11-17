@@ -236,11 +236,27 @@
     #categories,#trending,#drops,#reels{scroll-margin-top:112px}
   }
 
-  /* ---------- sale banner photo (locked model, blended into the maroon) ---------- */
-  .sb-photo{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:68% 16%;opacity:.55;z-index:0}
-  .sale-banner::before{content:"";position:absolute;inset:0;z-index:1;
-    background:linear-gradient(90deg,rgba(26,8,16,.90) 26%,rgba(26,8,16,.52) 60%,rgba(26,8,16,.78) 100%)}
-  .sale-banner>*{position:relative;z-index:2}
+
+  /* ---------- shopping guide: model + glowing category icons ---------- */
+  .guide{margin:26px 16px 0;border:2px solid #6e4520;border-radius:18px;text-align:center;padding:22px 10px 20px;
+    background:radial-gradient(ellipse at 50% -30%,#471426 0%,#1a0810 72%);position:relative;overflow:hidden}
+  .guide-title{font-family:'Anton',sans-serif;font-size:30px;letter-spacing:.05em;margin-top:6px;
+    background:linear-gradient(100deg,#e79b00,#ffc93c 45%,#fff3cf 50%,#ffc93c 55%,#e79b00);
+    -webkit-background-clip:text;background-clip:text;color:transparent}
+  .guide-sub{color:#e9d8c8;font-size:13px;margin:6px 0 14px}
+  .guide-stage{display:flex;align-items:center;justify-content:center;gap:6px}
+  .guide-img{height:clamp(290px,96vw,430px);width:auto;max-width:56%;object-fit:cover;border-radius:14px;
+    -webkit-mask-image:linear-gradient(180deg,#000 88%,transparent);mask-image:linear-gradient(180deg,#000 88%,transparent)}
+  .gcol{display:flex;flex-direction:column;gap:16px;justify-content:center}
+  .gicon{background:none;border:none;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:5px;padding:0}
+  .gicon img{width:62px;height:62px;border-radius:50%;object-fit:cover;border:2px solid rgba(255,201,60,.9);
+    box-shadow:0 0 14px rgba(255,170,0,.45);animation:glowPulse 2.8s ease-in-out infinite;transition:transform .15s}
+  .gcol .gicon:nth-child(2) img{animation-delay:.7s}
+  .gcol .gicon:nth-child(3) img{animation-delay:1.4s}
+  .gicon span{font-size:10.5px;font-weight:800;letter-spacing:.08em;color:#ffd98a;text-transform:uppercase}
+  .gicon:active img{transform:scale(.93)}
+  @keyframes glowPulse{0%,100%{box-shadow:0 0 10px rgba(255,170,0,.35)}50%{box-shadow:0 0 24px rgba(255,170,0,.75)}}
+  @media (max-width:380px){ .gicon img{width:54px;height:54px} .gicon span{font-size:9.5px} }
 </style>
 </head>
 <body>
@@ -292,7 +308,6 @@
   <div class="ticker" aria-hidden="true"><div class="ticker-track"><span>&#10022; NEW DROP 12 PM</span><span>&#10022; NEW DROP 7 PM</span><span>&#10022; COMMENT 'LINK' TO SHOP</span><span>&#10022; FOLLOW @NEHADAILYFINDS.IN</span><span>&#10022; SHOP ON MEESHO</span><span>&#10022; NEW REEL EVERY DAY</span><span>&#10022; NEW DROP 12 PM</span><span>&#10022; NEW DROP 7 PM</span><span>&#10022; COMMENT 'LINK' TO SHOP</span><span>&#10022; FOLLOW @NEHADAILYFINDS.IN</span><span>&#10022; SHOP ON MEESHO</span><span>&#10022; NEW REEL EVERY DAY</span></div></div>
 
   <div class="sale-banner">
-    <img class="sb-photo" src="assets/poster.jpg" alt="" aria-hidden="true">
     <div class="sb-eyebrow">✦ NEHA DAILY FINDS ✦</div>
     <h2>MAHA SAVINGS<br>PICKS</h2>
     <p>Festive season specials, hand-picked by Neha.<br>New finds drop every day — sarees, kurtis, jewellery &amp; more.</p>
@@ -303,6 +318,25 @@
     <div><div class="ic">💬</div><b>Comment LINK</b><span>product arrives in your DM</span></div>
     <div><div class="ic">🎬</div><b>New Reel Daily</b><span>12 PM &amp; 7 PM drops</span></div>
     <div><div class="ic">🛍️</div><b>Shop on Meesho</b><span>prices shown at checkout</span></div>
+  </div>
+
+  <div class="guide">
+    <div class="sb-eyebrow">&#10022; NEHA DAILY FINDS &#10022;</div>
+    <h2 class="guide-title">YOUR SHOPPING GUIDE</h2>
+    <p class="guide-sub">Tap a category &mdash; Neha points you to the finds</p>
+    <div class="guide-stage">
+      <div class="gcol">
+        <button class="gicon" data-qv="jewellery"><img src="assets/cat-jewellery.webp" alt="Women jewellery"><span>Jewellery</span></button>
+        <button class="gicon" data-qv="kitchen"><img src="assets/cat-kitchen.webp" alt="Home and kitchen"><span>Kitchen</span></button>
+        <button class="gicon" data-qv="western"><img src="assets/cat-western.webp" alt="Western wear"><span>Western</span></button>
+      </div>
+      <img class="guide-img" src="assets/guide.jpg" alt="Neha pointing to the categories and presenting them with an open palm">
+      <div class="gcol">
+        <button class="gicon" data-qv="saree"><img src="assets/saree-model.jpg" alt="Sarees"><span>Sarees</span></button>
+        <button class="gicon" data-qv="blouse"><img src="assets/blouse-model.jpg" alt="Blouses"><span>Blouses</span></button>
+        <button class="gicon" data-qv="kurti"><img src="assets/cat-kurti.webp" alt="Kurtis and suit sets"><span>Kurtis</span></button>
+      </div>
+    </div>
   </div>
 
   <div class="pill-head" id="categories"><h2>Categories In Demand</h2></div>
@@ -649,7 +683,19 @@
     blouse: { img:'assets/blouse-model.jpg', title:'Readymade Blouse \u00b7 Pack of 3',
       text:'Stretchable, ready to wear \u2014 peach, magenta and light green, three-quarter sleeves, sizes 26\u201340. From Reel 2.',
       shop:'https://affiliate.meesho.com/collection/MTAyOTc5MzM6Ojo6OjphdXRvZG0=',
-      reel:'https://www.instagram.com/reel/DfzFze_jizw/' }
+      reel:'https://www.instagram.com/reel/DfzFze_jizw/' },
+    kurti: { img:'assets/cat-kurti.webp', title:'Kurtis & Suit Sets',
+      text:'New kurti and suit-set finds drop in the daily reels \u2014 at 12 PM and 7 PM. Follow Neha Daily Finds so you never miss one.',
+      shop:'https://www.instagram.com/nehadailyfinds.in/', btn:'Follow on Instagram', reel:'' },
+    jewellery: { img:'assets/cat-jewellery.webp', title:'Women Jewellery',
+      text:'Temple sets, jhumkas and more \u2014 new jewellery finds drop in the daily reels, at 12 PM and 7 PM.',
+      shop:'https://www.instagram.com/nehadailyfinds.in/', btn:'Follow on Instagram', reel:'' },
+    kitchen: { img:'assets/cat-kitchen.webp', title:'Home, Kitchen & Decor',
+      text:'Useful little finds for your home and kitchen, dropped in the daily reels \u2014 at 12 PM and 7 PM.',
+      shop:'https://www.instagram.com/nehadailyfinds.in/', btn:'Follow on Instagram', reel:'' },
+    western: { img:'assets/cat-western.webp', title:'Western Wear',
+      text:'Dresses and western picks, shown on Neha in the daily reels \u2014 new drops at 12 PM and 7 PM.',
+      shop:'https://www.instagram.com/nehadailyfinds.in/', btn:'Follow on Instagram', reel:'' }
   };
   var modal = document.getElementById('qvModal');
   var qvImg = document.getElementById('qvImg'), qvTitle = document.getElementById('qvTitle'),
@@ -659,12 +705,15 @@
     var d = QV[key]; if(!d) return;
     qvImg.src = d.img; qvImg.alt = d.title;
     qvTitle.textContent = d.title; qvText.textContent = d.text;
-    qvShop.href = d.shop; qvReel.href = d.reel;
+    qvShop.href = d.shop; qvShop.textContent = d.btn || 'Shop on Meesho';
+    qvReel.style.display = d.reel ? '' : 'none';
+    if (d.reel) qvReel.href = d.reel;
     modal.classList.add('open'); modal.setAttribute('aria-hidden','false');
     document.body.style.overflow = 'hidden';
   }
   function closeQV(){ modal.classList.remove('open'); modal.setAttribute('aria-hidden','true'); document.body.style.overflow = ''; }
   slides.forEach(function(s){ s.addEventListener('click', function(){ openQV(s.getAttribute('data-qv')); }); });
+  document.querySelectorAll('.gicon').forEach(function(b){ b.addEventListener('click', function(){ openQV(b.getAttribute('data-qv')); }); });
   document.getElementById('qvClose').addEventListener('click', closeQV);
   modal.addEventListener('click', function(e){ if(e.target === modal) closeQV(); });
   addEventListener('keydown', function(e){ if(e.key === 'Escape') closeQV(); });
