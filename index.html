@@ -235,6 +235,12 @@
     .menu a{font-size:11.5px}
     #categories,#trending,#drops,#reels{scroll-margin-top:112px}
   }
+
+  /* ---------- sale banner photo (locked model, blended into the maroon) ---------- */
+  .sb-photo{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:68% 16%;opacity:.55;z-index:0}
+  .sale-banner::before{content:"";position:absolute;inset:0;z-index:1;
+    background:linear-gradient(90deg,rgba(26,8,16,.90) 26%,rgba(26,8,16,.52) 60%,rgba(26,8,16,.78) 100%)}
+  .sale-banner>*{position:relative;z-index:2}
 </style>
 </head>
 <body>
@@ -286,6 +292,7 @@
   <div class="ticker" aria-hidden="true"><div class="ticker-track"><span>&#10022; NEW DROP 12 PM</span><span>&#10022; NEW DROP 7 PM</span><span>&#10022; COMMENT 'LINK' TO SHOP</span><span>&#10022; FOLLOW @NEHADAILYFINDS.IN</span><span>&#10022; SHOP ON MEESHO</span><span>&#10022; NEW REEL EVERY DAY</span><span>&#10022; NEW DROP 12 PM</span><span>&#10022; NEW DROP 7 PM</span><span>&#10022; COMMENT 'LINK' TO SHOP</span><span>&#10022; FOLLOW @NEHADAILYFINDS.IN</span><span>&#10022; SHOP ON MEESHO</span><span>&#10022; NEW REEL EVERY DAY</span></div></div>
 
   <div class="sale-banner">
+    <img class="sb-photo" src="assets/poster.jpg" alt="" aria-hidden="true">
     <div class="sb-eyebrow">✦ NEHA DAILY FINDS ✦</div>
     <h2>MAHA SAVINGS<br>PICKS</h2>
     <p>Festive season specials, hand-picked by Neha.<br>New finds drop every day — sarees, kurtis, jewellery &amp; more.</p>
