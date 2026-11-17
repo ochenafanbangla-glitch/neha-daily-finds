@@ -180,12 +180,61 @@
   .fest:nth-child(3)::after{animation-delay:-4s}
   @keyframes sheenMove{from{left:-45%}to{left:112%}}
   @keyframes shineText{0%{background-position:115% 0}100%{background-position:-115% 0}}
+
+  /* ---------- ADVANCED: menu / ticker / coverflow / quick-view / reels ---------- */
+  .menu{display:flex;gap:16px}
+  .menu a{font-size:12.5px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:#f3e7ea;opacity:.92}
+  .menu a:hover{color:var(--gold);opacity:1}
+  @media (max-width:660px){ .menu{gap:11px} .menu a{font-size:11px} .brand{font-size:14px} .brand img{width:32px;height:32px} .ig-btn{padding:7px 10px;font-size:12.5px} }
+  @media (max-width:440px){ .brand span{display:none} }
+  #categories,#trending,#drops,#reels{scroll-margin-top:64px}
+
+  .ticker{overflow:hidden;background:linear-gradient(90deg,#33101d,#571e2e,#33101d);border-top:1px solid #6e4520;border-bottom:1px solid #6e4520;padding:9px 0;margin-bottom:18px}
+  .ticker-track{display:inline-flex;white-space:nowrap;width:max-content;animation:tickMove 24s linear infinite}
+  .ticker-track span{font-family:'Anton',sans-serif;letter-spacing:.18em;font-size:13px;color:var(--gold);padding:0 16px}
+  @keyframes tickMove{to{transform:translateX(-50%)}}
+
+  .flow{display:flex;gap:14px;overflow-x:auto;scroll-snap-type:x mandatory;padding:8px 20px 16px;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+  .flow::-webkit-scrollbar{display:none}
+  .fslide{flex:0 0 66%;max-width:290px;scroll-snap-align:center;border-radius:18px;overflow:hidden;position:relative;
+    border:1px solid #4a2436;background:#1c0d15;cursor:pointer;will-change:transform}
+  .fslide img{width:100%;aspect-ratio:3/4;object-fit:cover;display:block}
+  .fslide .cap{position:absolute;left:0;right:0;bottom:0;padding:30px 14px 12px;background:linear-gradient(transparent,rgba(5,2,4,.9));pointer-events:none}
+  .fslide .cap h3{font-family:'Anton',sans-serif;font-size:19px;letter-spacing:.04em}
+  .fslide .cap p{color:#e9d8c8;font-size:12.5px;margin:3px 0 7px}
+  .fslide .tap{display:inline-block;font-size:10px;font-weight:800;letter-spacing:.22em;color:var(--gold);border:1px solid rgba(255,201,60,.55);border-radius:20px;padding:4px 10px}
+  .flow-nav{display:flex;justify-content:center;gap:12px;margin:-2px 0 8px}
+  .flow-nav button{width:42px;height:42px;border-radius:50%;border:1px solid #6e4520;background:#2a121e;color:var(--gold);font-size:22px;line-height:1;cursor:pointer}
+  .flow-nav button:active{background:#571e2e}
+
+  .reel-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;padding:0 20px}
+  .reel-card video{width:100%;aspect-ratio:9/16;object-fit:cover;display:block;border-radius:16px;border:1px solid #4a2436;background:#000}
+  .reel-card .rcap{display:flex;align-items:center;justify-content:space-between;margin-top:8px}
+  .reel-card .rcap b{font-family:'Anton',sans-serif;letter-spacing:.06em;font-size:14px}
+  .reel-card .rcap a{font-size:12px;font-weight:700;color:var(--gold)}
+  @media (max-width:380px){ .reel-grid{gap:10px;padding:0 14px} }
+
+  .modal{position:fixed;inset:0;z-index:90;display:none;align-items:center;justify-content:center;padding:18px;
+    background:rgba(3,2,4,.78);backdrop-filter:blur(3px)}
+  .modal.open{display:flex}
+  .modal-card{position:relative;width:min(430px,100%);max-height:92vh;overflow:auto;border-radius:20px;background:#180a12;
+    border:1px solid #6e4520;box-shadow:0 24px 60px rgba(0,0,0,.6);animation:pop .22s ease}
+  @keyframes pop{from{transform:scale(.94);opacity:0}to{transform:scale(1);opacity:1}}
+  .modal-card img{width:100%;aspect-ratio:4/4.4;object-fit:cover;display:block}
+  .modal-x{position:absolute;top:10px;right:10px;width:36px;height:36px;border-radius:50%;border:1px solid rgba(255,255,255,.4);
+    background:rgba(5,3,5,.65);color:#fff;font-size:16px;cursor:pointer;z-index:2}
+  .modal-body{padding:16px 18px 20px}
+  .modal-body h3{font-family:'Anton',sans-serif;font-size:24px;letter-spacing:.04em}
+  .modal-body p{color:#e9d8c8;font-size:14px;margin:6px 0 14px}
+  .modal-btns{display:flex;gap:10px;flex-wrap:wrap}
+  .modal-note{color:var(--muted);font-size:11.5px;margin-top:12px}
 </style>
 </head>
 <body>
 
 <header class="topbar" id="topbar">
   <a class="brand" href="#"><img src="assets/logo.jpg" alt="Neha Daily Finds logo">NEHA <span>DAILY FINDS</span></a>
+  <nav class="menu"><a href="#categories">Categories</a><a href="#trending">Trending</a><a href="#reels">Reels</a><a href="#drops">Drops</a></nav>
   <a class="ig-btn" href="https://www.instagram.com/nehadailyfinds.in/" target="_blank" rel="noopener">Instagram</a>
 </header>
 
@@ -227,6 +276,8 @@
 <!-- ================= STOREFRONT (one long page) ================= -->
 <div class="store" id="store">
 
+  <div class="ticker" aria-hidden="true"><div class="ticker-track"><span>&#10022; NEW DROP 12 PM</span><span>&#10022; NEW DROP 7 PM</span><span>&#10022; COMMENT 'LINK' TO SHOP</span><span>&#10022; FOLLOW @NEHADAILYFINDS.IN</span><span>&#10022; SHOP ON MEESHO</span><span>&#10022; NEW REEL EVERY DAY</span><span>&#10022; NEW DROP 12 PM</span><span>&#10022; NEW DROP 7 PM</span><span>&#10022; COMMENT 'LINK' TO SHOP</span><span>&#10022; FOLLOW @NEHADAILYFINDS.IN</span><span>&#10022; SHOP ON MEESHO</span><span>&#10022; NEW REEL EVERY DAY</span></div></div>
+
   <div class="sale-banner">
     <div class="sb-eyebrow">✦ NEHA DAILY FINDS ✦</div>
     <h2>MAHA SAVINGS<br>PICKS</h2>
@@ -240,7 +291,7 @@
     <div><div class="ic">🛍️</div><b>Shop on Meesho</b><span>prices shown at checkout</span></div>
   </div>
 
-  <div class="pill-head"><h2>Categories In Demand</h2></div>
+  <div class="pill-head" id="categories"><h2>Categories In Demand</h2></div>
   <div class="cat-grid">
     <a class="tile" href="https://affiliate.meesho.com/collection/MTAyODQxNDY6Ojo6OjphdXRvZG0=" target="_blank" rel="noopener">
       <div class="art"><img src="assets/saree-model.jpg" alt="Kanjivaram silk saree worn by the model"></div>
@@ -268,33 +319,46 @@
     </a>
   </div>
 
-  <div class="pill-head"><h2>Trending Picks</h2></div>
-  <div class="picks">
-    <article class="pick">
-      <img src="assets/saree-product.webp" alt="Kanjivaram silk saree product photo">
-      <div>
-        <h3>Kanjivaram Silk Saree</h3>
-        <p>Teal &amp; magenta zari weave — the festive silk, up close.</p>
-        <a class="btn btn-red" href="https://affiliate.meesho.com/collection/MTAyODQxNDY6Ojo6OjphdXRvZG0=" target="_blank" rel="noopener">Shop on Meesho</a>
-      </div>
+  <div class="pill-head" id="trending"><h2>Trending Picks</h2></div>
+  <div class="flow" id="flow">
+    <article class="fslide" data-qv="saree">
+      <img src="assets/saree-model.jpg" alt="Neha wearing the teal and magenta Kanjivaram silk saree">
+      <div class="cap"><h3>Kanjivaram Silk Saree</h3><p>On Neha — the festive silk look</p><span class="tap">TAP TO VIEW</span></div>
     </article>
-    <article class="pick">
+    <article class="fslide" data-qv="saree">
+      <img src="assets/saree-product.webp" alt="Kanjivaram silk saree product photo, teal with magenta zari border">
+      <div class="cap"><h3>Kanjivaram Silk Saree</h3><p>Teal &amp; magenta zari weave, up close</p><span class="tap">TAP TO VIEW</span></div>
+    </article>
+    <article class="fslide" data-qv="blouse">
+      <img src="assets/blouse-model.jpg" alt="Neha wearing the peach stretchable readymade blouse">
+      <div class="cap"><h3>Readymade Blouse &middot; Pack of 3</h3><p>On Neha — peach, ready to wear</p><span class="tap">TAP TO VIEW</span></div>
+    </article>
+    <article class="fslide" data-qv="blouse">
       <img src="assets/blouse-product.webp" alt="Stretchable readymade blouse pack of 3 product photo">
-      <div>
-        <h3>Readymade Blouse · Pack of 3</h3>
-        <p>Stretchable · peach, magenta &amp; green · ready to wear.</p>
-        <a class="btn btn-red" href="https://affiliate.meesho.com/collection/MTAyOTc5MzM6Ojo6OjphdXRvZG0=" target="_blank" rel="noopener">Shop on Meesho</a>
-      </div>
+      <div class="cap"><h3>Readymade Blouse &middot; Pack of 3</h3><p>Peach, magenta &amp; green &middot; sizes 26&ndash;40</p><span class="tap">TAP TO VIEW</span></div>
     </article>
   </div>
+  <div class="flow-nav"><button id="flowPrev" aria-label="Previous pick">&#8249;</button><button id="flowNext" aria-label="Next pick">&#8250;</button></div>
 
-  <div class="pill-head"><h2>Daily Drops</h2></div>
+  <div class="pill-head" id="drops"><h2>Daily Drops</h2></div>
   <div class="drops">
     <h3>⚡ NEW FIND DROPS ⚡</h3>
     <p>A brand-new reel drops every day at these times.<br>Comment <b>LINK</b> on the reel and the product arrives in your DM.</p>
     <div class="times">
       <div><b>12 PM</b><span>NOON DROP</span></div>
       <div><b>7 PM</b><span>EVENING DROP</span></div>
+    </div>
+  </div>
+
+  <div class="pill-head" id="reels"><h2>Watch the Reels</h2></div>
+  <div class="reel-grid">
+    <div class="reel-card">
+      <video src="assets/reel1.mp4" poster="assets/saree-model.jpg" muted loop playsinline preload="none"></video>
+      <div class="rcap"><b>REEL 1 &middot; SAREE</b><a href="https://www.instagram.com/reel/DfymIe2DiPn/" target="_blank" rel="noopener">Instagram &#8599;</a></div>
+    </div>
+    <div class="reel-card">
+      <video src="assets/reel2.mp4" poster="assets/blouse-model.jpg" muted loop playsinline preload="none"></video>
+      <div class="rcap"><b>REEL 2 &middot; BLOUSE</b><a href="https://www.instagram.com/reel/DfzFze_jizw/" target="_blank" rel="noopener">Instagram &#8599;</a></div>
     </div>
   </div>
 
@@ -469,6 +533,91 @@
     requestAnimationFrame(render);
   }
   requestAnimationFrame(render);
+})();
+</script>
+
+<div class="modal" id="qvModal" aria-hidden="true">
+  <div class="modal-card">
+    <button class="modal-x" id="qvClose" aria-label="Close">&#10005;</button>
+    <img id="qvImg" src="" alt="">
+    <div class="modal-body">
+      <h3 id="qvTitle"></h3>
+      <p id="qvText"></p>
+      <div class="modal-btns">
+        <a class="btn btn-red" id="qvShop" href="#" target="_blank" rel="noopener">Shop on Meesho</a>
+        <a class="btn btn-ghost" id="qvReel" href="#" target="_blank" rel="noopener">Watch the Reel</a>
+      </div>
+      <p class="modal-note">Prices and offers are shown on Meesho at checkout. Or comment LINK on the reel and the product arrives in your DM.</p>
+    </div>
+  </div>
+</div>
+
+<script>
+(function(){
+  "use strict";
+  /* ----- coverflow: centre slide sharp & big, sides blurred ----- */
+  var flow = document.getElementById('flow');
+  var slides = Array.prototype.slice.call(flow.querySelectorAll('.fslide'));
+  function paint(){
+    var mid = flow.scrollLeft + flow.clientWidth/2;
+    slides.forEach(function(s){
+      var c = s.offsetLeft + s.offsetWidth/2;
+      var r = Math.min(Math.abs(c-mid)/s.offsetWidth, 1);
+      s.style.transform = 'scale(' + (1 - r*0.13).toFixed(3) + ')';
+      var img = s.querySelector('img');
+      img.style.filter = 'blur(' + (r*3).toFixed(1) + 'px) brightness(' + (1 - r*0.38).toFixed(2) + ')';
+    });
+  }
+  var tick = false;
+  flow.addEventListener('scroll', function(){ if(!tick){ tick = true; requestAnimationFrame(function(){ paint(); tick = false; }); } }, {passive:true});
+  addEventListener('resize', paint);
+  paint();
+  function step(dir){ var w = slides[0].offsetWidth + 14; flow.scrollBy({left: dir*w, behavior:'smooth'}); }
+  document.getElementById('flowPrev').addEventListener('click', function(){ step(-1); });
+  document.getElementById('flowNext').addEventListener('click', function(){ step(1); });
+
+  /* ----- quick-view card ----- */
+  var QV = {
+    saree: { img:'assets/saree-model.jpg', title:'Kanjivaram Silk Saree',
+      text:'Teal-blue silk with a magenta-pink zari border and pallu \u2014 the festive Kanjivaram from Reel 1, shown on Neha.',
+      shop:'https://affiliate.meesho.com/collection/MTAyODQxNDY6Ojo6OjphdXRvZG0=',
+      reel:'https://www.instagram.com/reel/DfymIe2DiPn/' },
+    blouse: { img:'assets/blouse-model.jpg', title:'Readymade Blouse \u00b7 Pack of 3',
+      text:'Stretchable, ready to wear \u2014 peach, magenta and light green, three-quarter sleeves, sizes 26\u201340. From Reel 2.',
+      shop:'https://affiliate.meesho.com/collection/MTAyOTc5MzM6Ojo6OjphdXRvZG0=',
+      reel:'https://www.instagram.com/reel/DfzFze_jizw/' }
+  };
+  var modal = document.getElementById('qvModal');
+  var qvImg = document.getElementById('qvImg'), qvTitle = document.getElementById('qvTitle'),
+      qvText = document.getElementById('qvText'), qvShop = document.getElementById('qvShop'),
+      qvReel = document.getElementById('qvReel');
+  function openQV(key){
+    var d = QV[key]; if(!d) return;
+    qvImg.src = d.img; qvImg.alt = d.title;
+    qvTitle.textContent = d.title; qvText.textContent = d.text;
+    qvShop.href = d.shop; qvReel.href = d.reel;
+    modal.classList.add('open'); modal.setAttribute('aria-hidden','false');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeQV(){ modal.classList.remove('open'); modal.setAttribute('aria-hidden','true'); document.body.style.overflow = ''; }
+  slides.forEach(function(s){ s.addEventListener('click', function(){ openQV(s.getAttribute('data-qv')); }); });
+  document.getElementById('qvClose').addEventListener('click', closeQV);
+  modal.addEventListener('click', function(e){ if(e.target === modal) closeQV(); });
+  addEventListener('keydown', function(e){ if(e.key === 'Escape') closeQV(); });
+
+  /* ----- reels: play on screen, tap to pause ----- */
+  var vids = document.querySelectorAll('.reel-card video');
+  if ('IntersectionObserver' in window) {
+    var io = new IntersectionObserver(function(es){
+      es.forEach(function(en){
+        var v = en.target;
+        if (en.intersectionRatio >= 0.45) { var p = v.play(); if (p && p.catch) p.catch(function(){}); }
+        else v.pause();
+      });
+    }, {threshold:[0, 0.45, 0.8]});
+    vids.forEach(function(v){ io.observe(v); });
+  }
+  vids.forEach(function(v){ v.addEventListener('click', function(){ if (v.paused) v.play(); else v.pause(); }); });
 })();
 </script>
 </body>
